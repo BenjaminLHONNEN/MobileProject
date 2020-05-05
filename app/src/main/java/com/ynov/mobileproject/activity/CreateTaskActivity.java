@@ -1,8 +1,17 @@
 package com.ynov.mobileproject.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ynov.mobileproject.R;
 import com.ynov.mobileproject.models.todolist.ToDoTask;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -30,6 +40,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     ToDoTask toDoTask;
     Date date;
+    private final static String default_notification_channel_id = "default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +85,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                     toDoTaskToCreate.title = titleEditor.getText().toString();
                     toDoTaskToCreate.date = date;
                     toDoTaskToCreate.category = categorySpinner.getSelectedItem().toString();
+
                     Create(toDoTaskToCreate);
                 }
 
@@ -82,8 +94,31 @@ public class CreateTaskActivity extends AppCompatActivity {
         });
     }
 
+    private void scheduleNotification(Notification notification, Date deadline, ToDoTask toDoTask) {
+        Intent notificationIntent = new Intent(this, MyNotificationPublisher.class);
+        notificationIntent.putExtra("uid", toDoTask.uid);
+        notificationIntent.putExtra("notification", notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        assert alarmManager != null;
+        long futureInMillis = SystemClock. elapsedRealtime () + 2000 ;
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, deadline.getTime() /*futureInMillis*/, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), default_notification_channel_id);
+        builder.setContentTitle("Deadline Notification");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.ic_assignment_black_24dp);
+        builder.setChannelId(default_notification_channel_id);
+        return builder.build();
+    }
+
     private void Create(ToDoTask toDo) {
         String key = taskRef.push().getKey();
+
+        scheduleNotification(getNotification( "Deadline de la tache : " + toDo.title ) , toDo.date, toDo ) ;
+
         toDo.uid = key;
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/todoList/" + key, toDo);
