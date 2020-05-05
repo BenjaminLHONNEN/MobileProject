@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/toDoListFragment"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="@string/todo_list" />
+        <item
+            android:id="@+id/googleMap"
+            android:icon="@drawable/ic_map_black_24dp"
+            android:title="@string/map" />
+        <item
+            android:id="@+id/compassFragment"
+            android:icon="@drawable/ic_my_location_black_24dp"
+            android:title="@string/compass" />
+        <item
+            android:id="@+id/calendarFragment"
+            android:icon="@drawable/ic_event_note_black_24dp"
+            android:title="@string/calendar" />
+    </group>
+</menu>

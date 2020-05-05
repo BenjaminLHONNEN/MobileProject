@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/toDoListFragment">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.ynov.mobileproject.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_nav_home_to_googleMap"
+            app:destination="@id/googleMap" />
+        <action
+            android:id="@+id/action_nav_home_to_compassFragment"
+            app:destination="@id/compassFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_toDoListFragment"
+            app:destination="@id/toDoListFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.ynov.mobileproject.ui.gallery.GalleryFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.ynov.mobileproject.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/googleMap"
+        android:name="com.ynov.mobileproject.ui.map.GoogleMap"
+        android:label="fragment_google_map"
+        tools:layout="@layout/fragment_google_map" />
+    <fragment
+        android:id="@+id/compassFragment"
+        android:name="com.ynov.mobileproject.ui.compass.CompassFragment"
+        android:label="fragment_compass"
+        tools:layout="@layout/fragment_compass" />
+    <fragment
+        android:id="@+id/toDoListFragment"
+        android:name="com.ynov.mobileproject.ui.totolist.ToDoListFragment"
+        android:label="fragment_to_do_list2"
+        tools:layout="@layout/fragment_to_do_list2" />
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.ynov.mobileproject.CalendarFragment"
+        android:label="calendar_fragment"
+        tools:layout="@layout/calendar_fragment" />
+</navigation>
